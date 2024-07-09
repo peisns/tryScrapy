@@ -37,17 +37,30 @@ class QuotesSpider(scrapy.Spider):
             yield response.follow(next_page, self.parse)
 
 # Scrapy 프로세스를 시작하는 코드
-# 11. 
+# 11. CrawlerProcess 클래스의 인스턴스를 생성하고 설정을 지정합니다
 process = CrawlerProcess(settings={
+    
+    # 12. FEEDS 설정은 
     'FEEDS': {
+        # 12-1. 데이터를 quotes.csv에 저장하도록 합니다
         'quotes.csv': {
+            # 12-2. 형식은 csv로
             'format': 'csv',
+            # 12-3. 인코딩은 UTF-8로
             'encoding': 'utf8',
+            # 12-4. 빈 항목은 저장하지 않고
             'store_empty': False,
+            # 12-5. 저장할 필드는 text와 author로
             'fields': ['text', 'author'],
+            # 12-6. 들여쓰기는 4칸으로 설정합니다
             'indent': 4,
         },
     },
 })
+
+# 13. process 인스턴스에 QuotesSpider 스파이더를 등록합니다
 process.crawl(QuotesSpider)
+
+# 14. 크롤링을 시작합니다
+# 14-1. 크롤리이 시작된 후 스크립트의 실행을 차단하고 크롤링이 완료될 때까지 대기합니다
 process.start()
